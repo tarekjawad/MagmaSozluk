@@ -1,0 +1,6 @@
+.navbar-brand{
+    font-size: 2rem;
+}
+.dropdown-toggle, .dropdown-item{
+    cursor: pointer;
+}

@@ -1,0 +1,20 @@
+<div class="container mt-5">
+    <div *ngIf="!registerMode" style="text-align:center;">
+    <h1>Magma Sözlüğe Hoş Geldiniz</h1>
+    <p class="lead">Devam etmek için kayıt olunuz.</p>
+    <div (click)="registerToggle()" class="btn btn-primary bt-lg mr-2"> 
+        Kayıt Ol
+    </div>
+    <div class="btn btn-primary bt-lg mr-2"> 
+        Hakkımızda
+    </div>
+    </div>
+    <div *ngIf="registerMode" class="container">
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>
+            </div>
+        </div>
+
+    </div>
+</div>
