@@ -11,5 +11,7 @@ namespace API.Data
         }
 
         public DbSet<AppUser> Users { get; set; }
+        public DbSet<School> Schools { get; set; }
+        public DbSet<Class> Classes { get; set; }
     }
 }
