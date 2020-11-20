@@ -16,8 +16,8 @@ namespace API.Extensions
 
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserRepository,UserRepository>();
+            services.AddScoped<IEducationRespository,EducationRespository>();
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
-
             services.AddDbContext<Data.DataContext>(options =>
             {
                 options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
