@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Class } from 'src/app/_models/class';
 import { Member } from 'src/app/_models/member';
 import { School } from 'src/app/_models/school';
 import { MembersService } from 'src/app/_services/members.service';
 import { NgxGalleryOptions } from '@kolkov/ngx-gallery';
 import { NgxGalleryImage } from '@kolkov/ngx-gallery';
 import { NgxGalleryAnimation } from '@kolkov/ngx-gallery';
+import { Class } from 'src/app/_models/class';
 
 @Component({
   selector: 'app-member-detail',
