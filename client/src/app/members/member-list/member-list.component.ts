@@ -11,13 +11,20 @@ import { MembersService } from 'src/app/_services/members.service';
   styleUrls: ['./member-list.component.css'],
 })
 export class MemberListComponent implements OnInit {
-
   members$!: Observable<Member[]>;
-  schools$!:Observable<School[]>;
+  schools$!: School[];
+  classes$!:Class[];
   constructor(private memberService: MembersService) {}
 
   ngOnInit(): void {
     this.members$ = this.memberService.getMembers();
-    this.schools$ = this.memberService.getSchools();
+    this.memberService.getSchools().subscribe((schools) => {
+      this.memberService.schools = schools;
+      this.schools$ = schools;
+    });
+    this.memberService.getClasses().subscribe((classes) => {
+      this.memberService.classes = classes;
+      this.classes$ = classes;
+    });;
   }
 }

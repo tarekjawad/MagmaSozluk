@@ -17,17 +17,20 @@ export class MembersService {
   schools: School[] = [];
 
   constructor(private http: HttpClient) {}
-  getMemberSchool(schoolId: number): Observable<School> {
-    this.getSchools();
-    const school = this.schools.find((x) => x.id === schoolId);
-    if (school !== undefined) return of(school);
+  getMemberSchool(schoolId: number) {
+    if (this.schools.length > 0)  {
+      const school = this.schools.find((x) => x.id === schoolId);
+    if (school != undefined) return of(school);
+    }
+    
     return this.http.get<School>(this.baseUrl + 'education/school/' + schoolId);
   }
+
  
   
   getSchools() {
     if (this.schools.length > 0) return of(this.schools);
-    return this.http.get<School[]>(this.baseUrl + 'schools').pipe(
+    return this.http.get<School[]>(this.baseUrl + 'education/schools').pipe(
       map((schools) => {
         this.schools = schools;
         return schools;
@@ -36,7 +39,7 @@ export class MembersService {
   }
   getClasses() {
     if (this.classes.length > 0) return of(this.classes);
-    return this.http.get<Class[]>(this.baseUrl + 'classes').pipe(
+    return this.http.get<Class[]>(this.baseUrl + 'education/classes').pipe(
       map((classes) => {
         this.classes = classes;
         return classes;
@@ -45,7 +48,7 @@ export class MembersService {
   }
   getMemberClass(classId: number) {
     const clas = this.classes.find((x) => x.id === classId);
-    if (clas !== undefined) return of(clas);
+    if (clas != undefined) return of(clas);
     return this.http.get<Class>(this.baseUrl + 'education/class/' + classId);
   }
 
@@ -71,5 +74,11 @@ export class MembersService {
         this.members[index] = member;
       })
     );
+  }
+  setMainPhoto(photoId:number){
+    return this.http.put(this.baseUrl + "users/set-main-photo/"+photoId,{})
+  }
+  deletePhoto(photoId:number){
+    return this.http.delete(this.baseUrl+"users/delete-photo/"+photoId);
   }
 }

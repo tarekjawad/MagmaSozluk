@@ -1,6 +1,7 @@
 import { Photo } from './photo';
 
 export interface Member {
+    filter(arg0: (x: any) => boolean): Photo[];
     id: number;
     username: string;
     photoUrl?: any;

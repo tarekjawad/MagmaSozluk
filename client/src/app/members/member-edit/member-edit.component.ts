@@ -18,8 +18,8 @@ export class MemberEditComponent implements OnInit {
   @ViewChild('editForm') editForm!: NgForm;
   member!: Member;
   user!: User;
-  memberSchool!: School;
-  memberClass!: Class;
+  memberSchool!: School|undefined;
+  memberClass!: Class|undefined;
   @HostListener('window:beforeunload', ['$event']) unloadNotification(
     $event: any
   ) {
@@ -45,14 +45,19 @@ export class MemberEditComponent implements OnInit {
   loadMember() {
     this.memberService.getMember(this.user.username).subscribe((member) => {
       this.member = member;
-      this.memberService
-        .getMemberSchool(member.schoolId)
-        .subscribe((school) => {
-          this.memberSchool = school;
-        });
-      this.memberService.getMemberClass(member.classId).subscribe((clas) => {
-        this.memberClass = clas;
-      });
+      
+      this.memberService.getSchools().subscribe(schools=>{
+        this.memberSchool= schools.find(
+          (x) => x.id == member.schoolId
+        );
+      }) 
+      
+      this.memberService.getClasses().subscribe(classes=>{
+        this.memberClass= classes.find(
+          (x) => x.id == member.classId
+        );
+      }) ;
+     
     });
   }
   updateMember() {

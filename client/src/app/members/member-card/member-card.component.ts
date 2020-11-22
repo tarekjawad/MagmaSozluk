@@ -12,17 +12,13 @@ import { MembersService } from 'src/app/_services/members.service';
 export class MemberCardComponent implements OnInit {
   @Input()
   member!: Member;
-  memberSchool!: School;
+  memberSchool: School|undefined;
   schools!: Observable<School[]>;
   constructor(private memberService: MembersService) {}
 
   ngOnInit(): void {
-     
-    this.memberService
-        .getMemberSchool(this.member.schoolId)
-        .subscribe((school) => {
-          this.memberSchool = school;
-        });
+    this.memberSchool = this.memberService.schools.find(
+      (x) => x.id == this.member.schoolId
+    );
   }
-  
 }
