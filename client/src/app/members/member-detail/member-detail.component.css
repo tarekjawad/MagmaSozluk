@@ -14,3 +14,6 @@
     border-top: none;
 }
 
+.card-img-top{
+    border-radius: 50%;
+}

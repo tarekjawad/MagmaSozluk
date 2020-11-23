@@ -51,7 +51,7 @@
       >
       <img src="{{user.photoUrl ||'assets/user.png'}}" alt="{{user.username}}">
         <a id="username-text" class="dropdown-toggle text-light" dropdownToggle>
-          {{ user.username | titlecase }}</a
+          {{ user.knownAs | titlecase }}</a
         >
         <div class="dropdown-menu mt-3" *dropdownMenu>
           <a class="dropdown-item" routerLink="/member/edit">Profilini Düzenle</a>

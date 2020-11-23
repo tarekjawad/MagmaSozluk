@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using API.Abstract;
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
@@ -28,11 +29,53 @@ namespace API.Data
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<MemberDto>> GetMembersAsync()
+        public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
-            return await _context.Users
-                .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+            var query = _context.Users.AsQueryable();
+            // query = query.Where(u => u.UserName != userParams.CurrentUsername);
+            // if (userParams.City!=null)
+            // {
+            //     query=query.Where(u =>u.City==userParams.City);
+
+            // }
+            if (userParams.City != null)
+            {
+
+                query = query.Where(u => u.City == userParams.City);
+
+                if (userParams.SchoolId != 0 && userParams.ClassId == 0)
+                {
+                    query = query.Where(u => u.SchoolId == userParams.SchoolId);
+                }
+                if (userParams.SchoolId != 0 && userParams.ClassId != 0)
+                {
+                    query = query.Where(u => u.SchoolId == userParams.SchoolId);
+                    query = query.Where(u => u.ClassId == userParams.ClassId);
+                }
+            }
+            else
+            {
+                if (userParams.SchoolId != 0 && userParams.ClassId == 0)
+                {
+                    query = query.Where(u => u.SchoolId == userParams.SchoolId);
+                }
+                if (userParams.SchoolId != 0 && userParams.ClassId != 0)
+                {
+                    query = query.Where(u => u.SchoolId == userParams.SchoolId);
+                    query = query.Where(u => u.ClassId == userParams.ClassId);
+
+                }
+            }
+
+            query = userParams.OrderBy switch
+            {
+                "created" => query.OrderByDescending(u => u.Created),
+                _ => query.OrderByDescending(u => u.LastActive)
+            };
+            return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+            .AsNoTracking(), userParams.PageNumber,
+            userParams.PageSize);
+
         }
 
         public async Task<AppUser> GetUserByIdAsync(int id)

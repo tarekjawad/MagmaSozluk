@@ -4,9 +4,11 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ToastrModule } from 'ngx-toastr';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
-import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { FileUploadModule } from 'ng2-file-upload';
-
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import {TimeagoModule} from 'ngx-timeago'
 @NgModule({
   declarations: [],
   imports: [
@@ -18,9 +20,19 @@ import { FileUploadModule } from 'ng2-file-upload';
     TabsModule.forRoot(),
     NgxGalleryModule,
     NgxSpinnerModule,
-    FileUploadModule
-
+    FileUploadModule,
+    ButtonsModule.forRoot(),
+    TimeagoModule.forRoot()
   ],
-  exports: [BsDropdownModule, ToastrModule, TabsModule, NgxGalleryModule,NgxSpinnerModule,FileUploadModule],
+  exports: [
+    BsDropdownModule,
+    ToastrModule,
+    TabsModule,
+    NgxGalleryModule,
+    NgxSpinnerModule,
+    FileUploadModule,
+    ButtonsModule,
+    TimeagoModule
+  ],
 })
 export class SharedModule {}

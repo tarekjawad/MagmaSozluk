@@ -1,11 +1,13 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Class } from '../_models/class';
 import { Member } from '../_models/member';
+import { PaginatedResult } from '../_models/pagination';
 import { School } from '../_models/school';
+import { UserParams } from '../_models/userParams';
 
 @Injectable({
   providedIn: 'root',
@@ -18,16 +20,14 @@ export class MembersService {
 
   constructor(private http: HttpClient) {}
   getMemberSchool(schoolId: number) {
-    if (this.schools.length > 0)  {
+    if (this.schools.length > 0) {
       const school = this.schools.find((x) => x.id === schoolId);
-    if (school != undefined) return of(school);
+      if (school != undefined) return of(school);
     }
-    
+
     return this.http.get<School>(this.baseUrl + 'education/school/' + schoolId);
   }
 
- 
-  
   getSchools() {
     if (this.schools.length > 0) return of(this.schools);
     return this.http.get<School[]>(this.baseUrl + 'education/schools').pipe(
@@ -52,14 +52,59 @@ export class MembersService {
     return this.http.get<Class>(this.baseUrl + 'education/class/' + classId);
   }
 
-  getMembers() {
-    if (this.members.length > 0) return of(this.members);
-    return this.http.get<Member[]>(this.baseUrl + 'users').pipe(
-      map((members) => {
-        this.members = members;
-        return members;
-      })
+  getMembers(userParams: UserParams) {
+    let params = this.getPaginitionHeaders(
+      userParams.pageNumber,
+      userParams.PageSize
     );
+
+    if (userParams.city != null) {
+      params = params.append('city', userParams.city);
+      if (userParams.schoolId !== 0 && userParams.classId === 0) {
+        params = params.append('schoolId', userParams.schoolId!.toString());
+      }
+      if (userParams.schoolId !== 0 && userParams.classId !== 0) {
+        params = params.append('schoolId', userParams.schoolId!.toString());
+        params = params.append('classId', userParams.classId!.toString());
+      }
+    } else {
+      if (userParams.schoolId !== 0 && userParams.classId === 0) {
+        params = params.append('schoolId', userParams.schoolId!.toString());
+      }
+      if (userParams.schoolId !== 0 && userParams.classId !== 0) {
+        params = params.append('schoolId', userParams.schoolId!.toString());
+        params = params.append('classId', userParams.classId!.toString());
+      }
+    }
+    params = params.append('orderBy', userParams.orderBy);
+
+    return this.getPaginatedResult<Member[]>(this.baseUrl + 'users', params);
+  }
+  private getPaginatedResult<T>(url: string, params: HttpParams) {
+    const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
+
+    return this.http
+      .get<T>(url, { observe: 'response', params })
+      .pipe(
+        map((response) => {
+          if (response.body) {
+            paginatedResult.result = response.body;
+          }
+          if (response.headers.get('Pagination') !== null) {
+            paginatedResult.pagination = JSON.parse(
+              response.headers.get('Pagination')!
+            );
+          }
+          return paginatedResult;
+        })
+      );
+  }
+
+  private getPaginitionHeaders(pageNumber: number, pageSize: number) {
+    let params = new HttpParams();
+    params = params.append('pageNumber', pageNumber.toString());
+    params = params.append('pageSize', pageSize.toString());
+    return params;
   }
   getMember(username: string) {
     const member = this.members.find((x) => x.username === username);
@@ -75,10 +120,10 @@ export class MembersService {
       })
     );
   }
-  setMainPhoto(photoId:number){
-    return this.http.put(this.baseUrl + "users/set-main-photo/"+photoId,{})
+  setMainPhoto(photoId: number) {
+    return this.http.put(this.baseUrl + 'users/set-main-photo/' + photoId, {});
   }
-  deletePhoto(photoId:number){
-    return this.http.delete(this.baseUrl+"users/delete-photo/"+photoId);
+  deletePhoto(photoId: number) {
+    return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
   }
 }

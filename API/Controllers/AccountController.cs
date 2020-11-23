@@ -46,7 +46,10 @@ namespace API.Controllers
             {
                 Username = user.UserName,
                 Token = _tokenService.CreateToken(user),
-                KnownAs=user.KnownAs
+                KnownAs=user.KnownAs,
+                SchoolId=user.SchoolId,
+                ClassId=user.ClassId,
+                City=user.City
             };
         }
 
@@ -75,7 +78,10 @@ namespace API.Controllers
                 Username = user.UserName,
                 Token = _tokenService.CreateToken(user),
                 PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
-                KnownAs=user.KnownAs
+                KnownAs=user.KnownAs,
+                SchoolId=user.SchoolId,
+                ClassId=user.ClassId,
+                City=user.City
             };
         }
         private async Task<bool> UserExists(string username)
