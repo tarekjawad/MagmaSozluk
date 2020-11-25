@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { AccountService } from '../_services/account.service';
 
 @Component({
   selector: 'app-home',
@@ -9,9 +10,11 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
 
   registerMode =  false;
-  constructor() { }
+  logined=false;
+  constructor(private accountService:AccountService) { }
 
   ngOnInit(): void {
+    this.logined=this.accountService.logined;
   }
 
   registerToggle(){

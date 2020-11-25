@@ -10,6 +10,7 @@ import { User } from '../_models/user';
 })
 export class AccountService {
   baseUrl = environment.apiUrl;
+  logined = false;
   private currentUserSource = new ReplaySubject<User>(1);
   currentUser$ = this.currentUserSource.asObservable();
   constructor(private http: HttpClient) {}
@@ -20,30 +21,29 @@ export class AccountService {
         const user = response;
         if (user) {
           this.setCurrentUser(user);
+          this.logined = true;
         }
       })
     );
   }
 
-  register(model:any){
+  register(model: any) {
     return this.http.post(this.baseUrl + 'account/register', model).pipe(
-      map((user:any)=> {
+      map((user: any) => {
         if (user) {
-          this.setCurrentUser(user)
+          this.setCurrentUser(user);
         }
       })
-    )
+    );
   }
-  setCurrentUser(user:User){
-    localStorage.setItem("user",JSON.stringify(user));
+  setCurrentUser(user: User) {
+    localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
   }
 
   logut() {
     localStorage.removeItem('user');
     this.currentUserSource.next(undefined);
-
+    this.logined = false;
   }
-
-
 }

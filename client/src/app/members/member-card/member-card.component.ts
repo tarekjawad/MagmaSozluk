@@ -1,8 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { Member } from 'src/app/_models/member';
 import { School } from 'src/app/_models/school';
 import { MembersService } from 'src/app/_services/members.service';
+import { faFeatherAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-member-card',
@@ -12,9 +14,19 @@ import { MembersService } from 'src/app/_services/members.service';
 export class MemberCardComponent implements OnInit {
   @Input()
   member!: Member;
-  memberSchool: School|undefined;
+  memberSchool: School | undefined;
   schools!: Observable<School[]>;
-  constructor(private memberService: MembersService) {}
+  featherIcon = faFeatherAlt;
+  constructor(
+    private memberService: MembersService,
+    private toastr: ToastrService
+  ) {}
+
+  addFollow(member: Member) {
+    this.memberService.addFollow(member.username).subscribe(() => {
+      this.toastr.success(member.knownAs + ' adlı kişiyi takip ettiniz.');
+    });
+  }
 
   ngOnInit(): void {
     this.memberSchool = this.memberService.schools.find(

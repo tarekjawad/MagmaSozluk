@@ -13,6 +13,7 @@
   <div id="navbarfirst">
     <ul class="navbar-nav mr-auto">
       <ng-container *ngIf="accountService.currentUser$ | async">
+        
         <li class="navbar-nav">
           <a routerLink="/members" class="nav-link" routerLinkActive="active"
             >Eşleşmeler</a
@@ -20,7 +21,7 @@
         </li>
         <li class="navbar-nav">
           <a routerLink="/lists" class="nav-link" routerLinkActive="active"
-            >Listeler</a
+            >Sözlük</a
           >
         </li>
         <li class="navbar-nav">
@@ -54,6 +55,9 @@
           {{ user.knownAs | titlecase }}</a
         >
         <div class="dropdown-menu mt-3" *dropdownMenu>
+          <a class="dropdown-item" routerLink="/followers-list">Takipçiler</a>
+          <a class="dropdown-item" routerLink="/followings-list">Takip edilenler</a>
+
           <a class="dropdown-item" routerLink="/member/edit">Profilini Düzenle</a>
           <div class="dropdown-divider"></div>
           <a href="" class="dropdown-item" (click)="logout()">Çıkış Yap</a>

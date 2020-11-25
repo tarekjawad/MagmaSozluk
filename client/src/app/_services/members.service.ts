@@ -1,14 +1,15 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { of, pipe } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Class } from '../_models/class';
 import { Member } from '../_models/member';
 import { PaginatedResult } from '../_models/pagination';
 import { School } from '../_models/school';
+import { User } from '../_models/user';
 import { UserParams } from '../_models/userParams';
-
+import { AccountService } from './account.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -17,8 +18,31 @@ export class MembersService {
   members: Member[] = [];
   classes: Class[] = [];
   schools: School[] = [];
+  memberCache = new Map();
+  user!: User;
+  userParams!: UserParams;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private accountService: AccountService
+  ) {
+    this.accountService.currentUser$.pipe(take(1)).subscribe((user) => {
+      this.user = user;
+      this.userParams = new UserParams(0, 0, '');
+    });
+  }
+
+  getUserParams() {
+    return this.userParams;
+  }
+  setUserParams(params: UserParams) {
+    this.userParams = params;
+  }
+  resetUserParams() {
+    this.userParams = new UserParams(0, 0, '');
+    return this.userParams;
+  }
+
   getMemberSchool(schoolId: number) {
     if (this.schools.length > 0) {
       const school = this.schools.find((x) => x.id === schoolId);
@@ -53,6 +77,12 @@ export class MembersService {
   }
 
   getMembers(userParams: UserParams) {
+    var response = this.memberCache.get(Object.values(userParams).join('-'));
+
+    if (response) {
+      return of(response);
+    }
+
     let params = this.getPaginitionHeaders(
       userParams.pageNumber,
       userParams.PageSize
@@ -78,7 +108,15 @@ export class MembersService {
     }
     params = params.append('orderBy', userParams.orderBy);
 
-    return this.getPaginatedResult<Member[]>(this.baseUrl + 'users', params);
+    return this.getPaginatedResult<Member[]>(
+      this.baseUrl + 'users',
+      params
+    ).pipe(
+      map((response) => {
+        this.memberCache.set(Object.values(userParams).join('-'), response);
+        return response;
+      })
+    );
   }
   private getPaginatedResult<T>(url: string, params: HttpParams) {
     const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
@@ -102,13 +140,19 @@ export class MembersService {
 
   private getPaginitionHeaders(pageNumber: number, pageSize: number) {
     let params = new HttpParams();
+    
     params = params.append('pageNumber', pageNumber.toString());
     params = params.append('pageSize', pageSize.toString());
     return params;
   }
   getMember(username: string) {
-    const member = this.members.find((x) => x.username === username);
-    if (member !== undefined) return of(member);
+    const member = [...this.memberCache.values()]
+      .reduce((arr, elem) => arr.concat(elem.result), [])
+      .find((member: Member) => member.username === username);
+
+    if (member) {
+      return of(member);
+    }
     return this.http.get<Member>(this.baseUrl + 'users/' + username);
   }
 
@@ -125,5 +169,14 @@ export class MembersService {
   }
   deletePhoto(photoId: number) {
     return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
+  }
+  addFollow(username: string) {
+    return this.http.post(this.baseUrl + 'follows/' + username, {});
+  }
+  getFollows(predicate: string,pageNumber:number,pageSize:number) {
+
+    let params =this.getPaginitionHeaders(pageNumber,pageSize)
+    params=params.append("predicate",predicate);
+    return this.getPaginatedResult<Partial<Member[]>>(this.baseUrl+"follows",params);
   }
 }

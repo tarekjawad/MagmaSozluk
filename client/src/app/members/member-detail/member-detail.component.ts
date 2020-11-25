@@ -7,6 +7,7 @@ import { NgxGalleryOptions } from '@kolkov/ngx-gallery';
 import { NgxGalleryImage } from '@kolkov/ngx-gallery';
 import { NgxGalleryAnimation } from '@kolkov/ngx-gallery';
 import { Class } from 'src/app/_models/class';
+import { faFeatherAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-member-detail',
@@ -19,6 +20,8 @@ export class MemberDetailComponent implements OnInit {
   memberClass!: Class;
   galleryOptions!: NgxGalleryOptions[];
   galleryImages!: NgxGalleryImage[];
+  featherIcon = faFeatherAlt;
+
 
   constructor(
     private memberService: MembersService,

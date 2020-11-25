@@ -1,5 +1,5 @@
 <div class="row" *ngIf="member">
-  <div class="col-4"><h2>Your Profile</h2></div>
+  <div class="col-4"><h2>Profil Sayfası</h2></div>
   <div class="col-8">
     <div class="alert alert-info" *ngIf="editForm.dirty">
       <strong>Bilgilendirme:</strong> Değişiklikler yaptın. Kaydedilmeyen
@@ -15,26 +15,26 @@
       />
       <div class="card-body">
         <div>
-          <strong>School/Class:</strong>
+          <strong>Okul/Sınıf:</strong>
           <p *ngIf="memberClass">
             {{ memberClass?.name }} - {{ memberSchool?.name }}
           </p>
         </div>
 
         <div>
-          <strong>Location:</strong>
+          <strong>Konum:</strong>
           <p>{{ member.city }}, {{ member.country }}</p>
         </div>
         <div>
-          <strong>Age:</strong>
+          <strong>Yaş:</strong>
           <p>{{ member.age }}</p>
         </div>
         <div>
-          <strong>Last Active:</strong>
+          <strong>Son Aktivite:</strong>
           <p>{{ member.lastActive |timeago }}</p>
         </div>
         <div>
-          <strong>Member since:</strong>
+          <strong>Şu tareihten beridir aramızda:</strong>
           <p>{{ member.created |date:"dd MMM yyyy" }}</p>
         </div>
       </div>
@@ -52,7 +52,7 @@
 
   <div class="col-8">
     <tabset class="member-tabset">
-      <tab heading="About {{ member.knownAs }}">
+      <tab heading="Hakkımda">
         <form #editForm="ngForm" id="editForm" (ngSubmit)="updateMember()">
           <label for="knownAs">Ad-Soyad:</label>
                 <input
@@ -68,7 +68,7 @@
             name="introduction"
             rows="7"
           ></textarea>
-          <h4 class="mt-2">Looking for</h4>
+          <h4 class="mt-2">Şu özelliklere sahip kişi arıyor</h4>
           <textarea
             class="form-control"
             [(ngModel)]="member.lookingFor"
@@ -107,7 +107,7 @@
           </div>
         </form>
       </tab>
-      <tab heading="Edit Photos">
+      <tab heading="Fotoğrafları Düzenle">
         <app-photo-editor [member]="member"></app-photo-editor>
       </tab>
     </tabset>

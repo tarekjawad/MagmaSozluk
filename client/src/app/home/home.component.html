@@ -3,7 +3,8 @@
     <div class="col-6" *ngIf="!registerMode" style="text-align:center;">
     <h1>Magma Sözlüğe Hoş Geldiniz</h1>
     <p class="lead">Devam etmek için kayıt olunuz.</p>
-    <div (click)="registerToggle()" class="btn btn-primary bt-lg mr-2"> 
+    <ng-container></ng-container>
+    <div *ngIf="!logined" (click)="registerToggle()" class="btn btn-primary bt-lg mr-2"> 
         Kayıt Ol
     </div>
     <div class="btn btn-info bt-lg mr-2"> 
@@ -16,10 +17,12 @@
                 <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>
             </div>
         </div>
-
-    </div>
+    </div>   
+   
     <div class="col-3">
-        <h2 class="text-center">  <span class="badge badge-info"> Güncel Başlıklar</span></h2>
+        <h2 class="text-center">  <span class="badge badge-info"> 
+
+        </span></h2>
     </div>
 
 </div>

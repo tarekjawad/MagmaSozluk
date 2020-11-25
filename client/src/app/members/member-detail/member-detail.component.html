@@ -5,24 +5,24 @@
                 class="card-img-top img-thumbnail">
             <div class="card-body">
                 <div >
-                    <strong>School/Class:</strong>
+                    <strong>Okul/Sınıf:</strong>
                     <p *ngIf="memberClass">{{memberClass?.name}} - {{memberSchool?.name}} </p>
                 </div>
             
                 <div>
-                    <strong>Location:</strong>
+                    <strong>Konum:</strong>
                     <p>{{member.city}}, {{member.country}}</p>
                 </div>
                 <div>
-                    <strong>Age:</strong>
+                    <strong>Yaş:</strong>
                     <p>{{member.age}}</p>
                 </div>
                 <div>
-                    <strong>Last Active:</strong>
+                    <strong>Son Görünme:</strong>
                     <p>{{member.lastActive |timeago}}</p>
                 </div>
                 <div>
-                    <strong>Member since:</strong>
+                    <strong>Şu tarihten beri aramızda:</strong>
                     <p>{{member.created |date:"dd MMM yyyy"}}</p>
                 </div>
             </div>
@@ -39,10 +39,10 @@
 
     <div class="col-8">
         <tabset class="member-tabset">
-            <tab heading="About {{member.knownAs}}">
+            <tab heading="Açıklama">
                 <h4>Açıklama</h4>
                 <p>{{member.introduction}}</p>
-                <h4>Looking for</h4>
+                <h4>Aşağıdaki özelliklere sahip kişi arıyor</h4>
                 <p>{{member.lookingFor}}</p>
             </tab>
             <tab heading="İlgi Alanları">

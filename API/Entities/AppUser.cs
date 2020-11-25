@@ -23,19 +23,7 @@ namespace API.Entities
         public int SchoolId { get; set; }
         public int ClassId { get; set; }
         public ICollection<Photo> Photos { get; set; }
-
-        // public int GetAge()
-        // {
-        //     return DateOfBirth.CalculateAge();
-        // }
-        // public string GetPhotoUrl()
-        // {
-        //     foreach (var photo in Photos)
-        //     {
-        //         if (photo.IsMain) return photo.Url;
-        //         return photo.Url;
-        //     }
-        //     return null;
-        // }
+        public ICollection<UserFollow> FollowedByUsers { get; set; }
+        public ICollection<UserFollow> FollowedUsers { get; set; }
     }
 }
