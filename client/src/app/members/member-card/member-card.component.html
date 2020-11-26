@@ -10,6 +10,7 @@
         <button
           class="btn btn-primary"
           routerLink="/members/{{ member.username }}"
+
         >
           <i class="fa fa-user"></i>
         </button>
@@ -17,11 +18,14 @@
       <li class="list-inline-item">
         <button (click)="addFollow(member)" class="btn btn-primary">
           <fa-icon [icon]="featherIcon"></fa-icon>
-
         </button>
       </li>
       <li class="list-inline-item">
-        <button class="btn btn-primary">
+        <button
+          routerLink="/members/{{ member.username }}"
+          [queryParams]="{tab:3,schoolId:member.schoolId,classId:member.classId}"
+          class="btn btn-primary"
+        >
           <i class="fa fa-envelope"></i>
         </button>
       </li>
@@ -33,6 +37,6 @@
       {{ member.knownAs }}
     </h6>
     <p class="card-text text-muted text">{{ member.city }}</p>
-    <p class="card-text text-muted text">{{ memberSchool?.name}}</p>
+    <p class="card-text text-muted text">{{ memberSchool?.name }}</p>
   </div>
 </div>

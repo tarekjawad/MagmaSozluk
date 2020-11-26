@@ -14,6 +14,7 @@ namespace API.Data
         public DbSet<School> Schools { get; set; }
         public DbSet<Class> Classes { get; set; }
         public DbSet<UserFollow> Follows { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -30,6 +31,17 @@ namespace API.Data
             .WithMany(l => l.FollowedByUsers)
             .HasForeignKey(s => s.FollowedUserId)
             .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<Message>()
+            .HasOne(u=>u.Recipient)
+            .WithMany(m=>m.MessagesReceived)
+            .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<Message>()
+            .HasOne(u=>u.Sender)
+            .WithMany(m=>m.MessagesSent)
+            .OnDelete(DeleteBehavior.NoAction);
+
 
         }
     }

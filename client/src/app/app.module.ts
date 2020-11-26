@@ -26,6 +26,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ListFollowersComponent } from './lists/list-followers/list-followers.component';
 import { ListFollowingsComponent } from './lists/list-followings/list-followings.component';
+import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { ListFollowingsComponent } from './lists/list-followings/list-followings
     PhotoEditorComponent,
     ListFollowersComponent,
     ListFollowingsComponent,
+    MemberMessagesComponent,
   ],
   imports: [
     BrowserModule,
