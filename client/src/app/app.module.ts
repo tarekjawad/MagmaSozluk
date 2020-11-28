@@ -27,6 +27,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ListFollowersComponent } from './lists/list-followers/list-followers.component';
 import { ListFollowingsComponent } from './lists/list-followings/list-followings.component';
 import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { HasRoleDirective } from './_directives/has-role.directive';
+import { UserManagementComponent } from './admin/user-management/user-management.component';
+import { PhotoManagementComponent } from './admin/photo-management/photo-management.component';
+import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +51,11 @@ import { MemberMessagesComponent } from './members/member-messages/member-messag
     ListFollowersComponent,
     ListFollowingsComponent,
     MemberMessagesComponent,
+    AdminPanelComponent,
+    HasRoleDirective,
+    UserManagementComponent,
+    PhotoManagementComponent,
+    RolesModalComponent,
   ],
   imports: [
     BrowserModule,

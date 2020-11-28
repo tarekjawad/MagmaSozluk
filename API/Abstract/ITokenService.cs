@@ -1,9 +1,11 @@
+using System.Threading.Tasks;
 using API.Entities;
 
 namespace API.Abstract
 {
     public interface ITokenService
     {
-         string CreateToken(AppUser user);
+        Task<string> CreateToken(AppUser user);
+
     }
 }
