@@ -54,11 +54,7 @@ namespace API.Data
              return await _context.Schools.ToListAsync();
         }
 
-        public async Task<bool> SaveAllAsync()
-        {
-            return await _context.SaveChangesAsync() > 0;
 
-        }
 
         public void UpdateClass(Class clas)
         {

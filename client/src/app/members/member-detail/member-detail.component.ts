@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Member } from 'src/app/_models/member';
 import { School } from 'src/app/_models/school';
 import { MembersService } from 'src/app/_services/members.service';
@@ -11,14 +11,18 @@ import { faFeatherAlt } from '@fortawesome/free-solid-svg-icons';
 import { TabDirective, TabsetComponent } from 'ngx-bootstrap/tabs';
 import { MessageService } from 'src/app/_services/message.service';
 import { Message } from 'src/app/_models/message';
+import { PresenceService } from 'src/app/_services/presence.service';
+import { AccountService } from 'src/app/_services/account.service';
+import { User } from 'src/app/_models/user';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-member-detail',
   templateUrl: './member-detail.component.html',
   styleUrls: ['./member-detail.component.css'],
 })
-export class MemberDetailComponent implements OnInit {
-  @ViewChild('memberTabs',{static:true}) memberTabs!: TabsetComponent;
+export class MemberDetailComponent implements OnInit, OnDestroy {
+  @ViewChild('memberTabs', { static: true }) memberTabs!: TabsetComponent;
   member!: Member;
   memberSchool!: School;
   memberClass!: Class;
@@ -27,24 +31,35 @@ export class MemberDetailComponent implements OnInit {
   featherIcon = faFeatherAlt;
   activeTab!: TabDirective;
   messages: Message[] = [];
+  user!: User;
   constructor(
     private memberService: MembersService,
     private route: ActivatedRoute,
-    private messageService: MessageService
-  ) {}
+    private messageService: MessageService,
+    public presence: PresenceService,
+    private accountService: AccountService,
+    private router: Router
+  ) {
+    this.accountService.currentUser$
+      .pipe(take(1))
+      .subscribe((user) => (this.user = user));
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+  }
 
   ngOnInit(): void {
-    this.route.data.subscribe(data =>{
-      this.member=data.member;
+    this.route.data.subscribe((data) => {
+      this.member = data.member;
       this.memberService
-          .getMemberSchool(data.member.schoolId)
-          .subscribe((school) => {
-            this.memberSchool = school;
-          });
-        this.memberService.getMemberClass(data.member.classId).subscribe((clas) => {
+        .getMemberSchool(data.member.schoolId)
+        .subscribe((school) => {
+          this.memberSchool = school;
+        });
+      this.memberService
+        .getMemberClass(data.member.classId)
+        .subscribe((clas) => {
           this.memberClass = clas;
         });
-    })
+    });
 
     this.route.queryParams.subscribe((params) => {
       params.tab ? this.selectTab(params.tab) : this.selectTab(0);
@@ -61,7 +76,6 @@ export class MemberDetailComponent implements OnInit {
       },
     ];
     this.galleryImages = this.getImages();
-
   }
 
   getImages(): NgxGalleryImage[] {
@@ -104,7 +118,12 @@ export class MemberDetailComponent implements OnInit {
   onTabActived(data: TabDirective) {
     this.activeTab = data;
     if (this.activeTab.heading === 'Mesajlar' && this.messages.length === 0) {
-      this.loadMessages();
+      this.messageService.CreateHubConnection(this.user, this.member.username);
+    } else {
+      this.messageService.stopHubConnection();
     }
+  }
+  ngOnDestroy(): void {
+    this.messageService.stopHubConnection();
   }
 }

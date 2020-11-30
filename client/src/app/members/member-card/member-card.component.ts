@@ -5,6 +5,7 @@ import { Member } from 'src/app/_models/member';
 import { School } from 'src/app/_models/school';
 import { MembersService } from 'src/app/_services/members.service';
 import { faFeatherAlt } from '@fortawesome/free-solid-svg-icons';
+import { PresenceService } from 'src/app/_services/presence.service';
 
 @Component({
   selector: 'app-member-card',
@@ -19,7 +20,8 @@ export class MemberCardComponent implements OnInit {
   featherIcon = faFeatherAlt;
   constructor(
     private memberService: MembersService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public presence: PresenceService
   ) {}
 
   addFollow(member: Member) {

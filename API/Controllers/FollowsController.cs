@@ -13,26 +13,24 @@ namespace API.Controllers
     [Authorize]
     public class FollowsController : BaseAPIController
     {
-        private readonly IFollowsRepository _followsRepository;
-        private readonly IUserRepository _userRepository;
-        public FollowsController(IUserRepository userRepository, IFollowsRepository followsRepository)
-        {
-            _userRepository = userRepository;
-            _followsRepository = followsRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
+        public FollowsController(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
         }
 
         [HttpPost("{username}")]
         public async Task<ActionResult> AddFollow(string username)
         {
             var sourceUserId = User.GetUserId();
-            var followedUser = await _userRepository.GetUserByUsernameAsync(username);
-            var sourceUser = await _followsRepository.GetUsersWithFollows(sourceUserId);
+            var followedUser = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
+            var sourceUser = await _unitOfWork.FollowsRepository.GetUsersWithFollows(sourceUserId);
             if (followedUser == null) return NotFound();
 
             if (sourceUser.UserName == username) return BadRequest("Kendini takip edemezsin(Bizde öyle)");
 
-            var userFollow = await _followsRepository.GetUserFollow(sourceUserId, followedUser.Id);
+            var userFollow = await _unitOfWork.FollowsRepository.GetUserFollow(sourceUserId, followedUser.Id);
 
             if (userFollow != null) return BadRequest("Bu kişiyi zaten takip etmektesin.");
 
@@ -43,16 +41,16 @@ namespace API.Controllers
             };
             sourceUser.FollowedUsers.Add(userFollow);
 
-            if (await _userRepository.SaveAllAsync()) return Ok();
+            if (await _unitOfWork.Complete()) return Ok();
             return BadRequest("Başarısız bir istek");
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FollowDto>>> GetUserFollows([FromQuery]FollowsParams followsParams)
+        public async Task<ActionResult<IEnumerable<FollowDto>>> GetUserFollows([FromQuery] FollowsParams followsParams)
         {
 
             followsParams.UserId = User.GetUserId();
-            var users = await _followsRepository.GetUserFollows(followsParams);
+            var users = await _unitOfWork.FollowsRepository.GetUserFollows(followsParams);
             Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
             return Ok(users);
         }

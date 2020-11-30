@@ -1,8 +1,11 @@
 <div class="car">
   <div class="card-body">
-    <div *ngIf="messages!.length === 0">Henüz mesaj yok...</div>
-    <ul *ngIf="messages!.length > 0">
-      <li *ngFor="let message of messages" class="chat">
+    <div *ngIf="(messageService.messageThread$ |async)!.length === 0">Henüz mesaj yok...</div>
+    <ul #scrollMe
+    style="overflow: scroll; height: 500px;"
+    [scrollTop]="scrollMe.scrollHeight" 
+    *ngIf="(messageService.messageThread$ |async)!.length > 0" class="chat">
+      <li *ngFor="let message of (messageService.messageThread$ |async)">
         <div>
           <span class="chat-img float-right"
             ><img

@@ -10,7 +10,6 @@ namespace API.Abstract
         void AddClass(Class clas);
         void UpdateSchool(School school);
         void UpdateClass(Class clas);
-        Task<bool> SaveAllAsync();
         Task<IEnumerable<School>> GetSchoolsAsync();
         Task<School> GetSchoolByIdAsync(int id);
         Task<IEnumerable<Class>> GetClassesAsync();

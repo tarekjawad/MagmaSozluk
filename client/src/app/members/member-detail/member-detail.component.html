@@ -4,6 +4,9 @@
             <img src="{{member.photoUrl || './assets/user.png'}}" alt="{{member.knownAs}}" 
                 class="card-img-top img-thumbnail">
             <div class="card-body">
+                <div class="mb-2" *ngIf="(presence.onlineUsers$ |async)!.includes(member.username)">
+                    <i class="fa fa-user-circle text-success"></i> Çevrim içi
+                </div>
                 <div >
                     <strong>Okul/Sınıf:</strong>
                     <p *ngIf="memberClass">{{memberClass?.name}} - {{memberSchool?.name}} </p>
@@ -51,11 +54,11 @@
                 <p>{{member.interests}}</p>
 
             </tab>
-            <tab heading="Fotoğraflar" (selectTab)="onTabActived($event)">
-                <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery" style="display: inline-block; margin-bottom: 20px;"></ngx-gallery>
+            <tab heading="Fotoğraflar" (selectTab)="onTabActived($event)" >
+                <ngx-gallery *ngIf="member.photos !== null" [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery" style="display: inline-block; margin-bottom: 20px;"></ngx-gallery>
             </tab>
             <tab heading="Mesajlar" (selectTab)="onTabActived($event)">
-                <app-member-messages [messages]="messages" [username]="member.username"></app-member-messages>
+                <app-member-messages [username]="member.username"></app-member-messages>
             </tab>
         </tabset>
     </div>

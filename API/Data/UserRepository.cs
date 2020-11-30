@@ -32,12 +32,6 @@ namespace API.Data
         public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
             var query = _context.Users.AsQueryable();
-            // query = query.Where(u => u.UserName != userParams.CurrentUsername);
-            // if (userParams.City!=null)
-            // {
-            //     query=query.Where(u =>u.City==userParams.City);
-
-            // }
             if (userParams.City != null)
             {
 
@@ -77,12 +71,10 @@ namespace API.Data
             userParams.PageSize);
 
         }
-
         public async Task<AppUser> GetUserByIdAsync(int id)
         {
             return await _context.Users.FindAsync(id);
         }
-
         public async Task<AppUser> GetUserByUsernameAsync(string username)
         {
             return await _context.Users
@@ -90,18 +82,13 @@ namespace API.Data
             .SingleOrDefaultAsync(x => x.UserName == username);
         }
 
+
         public async Task<IEnumerable<AppUser>> GetUsersAsync()
         {
             return await _context.Users
             .Include(p => p.Photos)
             .ToListAsync();
         }
-
-        public async Task<bool> SaveAllAsync()
-        {
-            return await _context.SaveChangesAsync() > 0;
-        }
-
         public void Update(AppUser user)
         {
             _context.Entry(user).State = EntityState.Modified;

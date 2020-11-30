@@ -12,51 +12,51 @@ namespace API.Controllers
 {
     public class EducationController : BaseAPIController
     {
-        private readonly IEducationRespository _educationRepository;
         private readonly IMapper _mapper;
-        public EducationController(IEducationRespository educationRepository, IMapper mapper)
+        private readonly IUnitOfWork _unitOfWork;
+        public EducationController(IUnitOfWork unitOfWork, IMapper mapper)
         {
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _educationRepository = educationRepository;
         }
         [HttpGet("schools")]
         public async Task<ActionResult<IEnumerable<School>>> GetSchools()
         {
-            var schools = await _educationRepository.GetSchoolsAsync();
+            var schools = await _unitOfWork.EducationRespository.GetSchoolsAsync();
             return Ok(schools);
         }
         [HttpGet("school/{id}")]
         public async Task<ActionResult<School>> GetSchoolById(int id)
         {
-             return await _educationRepository.GetSchoolByIdAsync(id);
-            
+            return await _unitOfWork.EducationRespository.GetSchoolByIdAsync(id);
+
         }
-         [HttpGet("classes")]
+        [HttpGet("classes")]
         public async Task<ActionResult<IEnumerable<Class>>> GetClasses()
         {
-            var classes = await _educationRepository.GetClassesAsync();
+            var classes = await _unitOfWork.EducationRespository.GetClassesAsync();
             return Ok(classes);
         }
         [HttpGet("class/{id}")]
         public async Task<ActionResult<Class>> GetClassById(int id)
         {
-             return await _educationRepository.GetClassByIdAsync(id);
-            
+            return await _unitOfWork.EducationRespository.GetClassByIdAsync(id);
+
         }
 
         [HttpPost("addclass")]
         public async Task<ActionResult<Class>> AddClass(Class clas)
         {
-            if (await _educationRepository.ClassExists(clas.Id)) return BadRequest("Class is already exists");
-            _educationRepository.AddClass(clas);
+            if (await _unitOfWork.EducationRespository.ClassExists(clas.Id)) return BadRequest("Class is already exists");
+            _unitOfWork.EducationRespository.AddClass(clas);
             return clas;
         }
-        
+
         [HttpPost("addschool")]
         public async Task<ActionResult<School>> AddSchool(School school)
         {
-            if (await _educationRepository.SchoolExists(school.Id)) return BadRequest("School is already exists");
-            _educationRepository.AddSchool(school);
+            if (await _unitOfWork.EducationRespository.SchoolExists(school.Id)) return BadRequest("School is already exists");
+            _unitOfWork.EducationRespository.AddSchool(school);
             return school;
         }
     }
