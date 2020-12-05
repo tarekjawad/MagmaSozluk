@@ -184,6 +184,32 @@ namespace API.Data.Migrations
                     b.ToTable("Classes");
                 });
 
+            modelBuilder.Entity("API.Entities.CommentLike", b =>
+                {
+                    b.Property<int>("SourceUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LikedCommentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LikedCommentCommentedPostId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LikedCommentSourceUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserPostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SourceUserId", "LikedCommentId");
+
+                    b.HasIndex("UserPostId");
+
+                    b.HasIndex("LikedCommentSourceUserId", "LikedCommentCommentedPostId");
+
+                    b.ToTable("CommentLike");
+                });
+
             modelBuilder.Entity("API.Entities.Connection", b =>
                 {
                     b.Property<string>("ConnectionId")
@@ -281,6 +307,41 @@ namespace API.Data.Migrations
                     b.ToTable("Photos");
                 });
 
+            modelBuilder.Entity("API.Entities.PostComment", b =>
+                {
+                    b.Property<int>("SourceUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CommentedPostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SourceUserId", "CommentedPostId");
+
+                    b.HasIndex("CommentedPostId");
+
+                    b.ToTable("PostComment");
+                });
+
+            modelBuilder.Entity("API.Entities.PostLike", b =>
+                {
+                    b.Property<int>("SourceUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LikedPostId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AppUserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SourceUserId", "LikedPostId");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("LikedPostId");
+
+                    b.ToTable("PostLike");
+                });
+
             modelBuilder.Entity("API.Entities.School", b =>
                 {
                     b.Property<int>("Id")
@@ -312,6 +373,35 @@ namespace API.Data.Migrations
                     b.HasIndex("FollowedUserId");
 
                     b.ToTable("Follows");
+                });
+
+            modelBuilder.Entity("API.Entities.UserPost", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("KindId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SourceUserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SourceUserId");
+
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -419,6 +509,29 @@ namespace API.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("API.Entities.CommentLike", b =>
+                {
+                    b.HasOne("API.Entities.AppUser", "SourceUser")
+                        .WithMany("CommentLikes")
+                        .HasForeignKey("SourceUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.UserPost", null)
+                        .WithMany("CommentLikes")
+                        .HasForeignKey("UserPostId");
+
+                    b.HasOne("API.Entities.PostComment", "LikedComment")
+                        .WithMany()
+                        .HasForeignKey("LikedCommentSourceUserId", "LikedCommentCommentedPostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("LikedComment");
+
+                    b.Navigation("SourceUser");
+                });
+
             modelBuilder.Entity("API.Entities.Connection", b =>
                 {
                     b.HasOne("API.Entities.Group", null)
@@ -456,6 +569,48 @@ namespace API.Data.Migrations
                     b.Navigation("AppUser");
                 });
 
+            modelBuilder.Entity("API.Entities.PostComment", b =>
+                {
+                    b.HasOne("API.Entities.UserPost", "CommentedPost")
+                        .WithMany("Comments")
+                        .HasForeignKey("CommentedPostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.AppUser", "SourceUser")
+                        .WithMany("PostComments")
+                        .HasForeignKey("SourceUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("CommentedPost");
+
+                    b.Navigation("SourceUser");
+                });
+
+            modelBuilder.Entity("API.Entities.PostLike", b =>
+                {
+                    b.HasOne("API.Entities.AppUser", null)
+                        .WithMany("LikedPosts")
+                        .HasForeignKey("AppUserId");
+
+                    b.HasOne("API.Entities.UserPost", "LikedPost")
+                        .WithMany("Likes")
+                        .HasForeignKey("LikedPostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.AppUser", "SourceUser")
+                        .WithMany("PostLikes")
+                        .HasForeignKey("SourceUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("LikedPost");
+
+                    b.Navigation("SourceUser");
+                });
+
             modelBuilder.Entity("API.Entities.UserFollow", b =>
                 {
                     b.HasOne("API.Entities.AppUser", "FollowedUser")
@@ -471,6 +626,17 @@ namespace API.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("FollowedUser");
+
+                    b.Navigation("SourceUser");
+                });
+
+            modelBuilder.Entity("API.Entities.UserPost", b =>
+                {
+                    b.HasOne("API.Entities.AppUser", "SourceUser")
+                        .WithMany("UserPosts")
+                        .HasForeignKey("SourceUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("SourceUser");
                 });
@@ -518,9 +684,13 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.AppUser", b =>
                 {
+                    b.Navigation("CommentLikes");
+
                     b.Navigation("FollowedByUsers");
 
                     b.Navigation("FollowedUsers");
+
+                    b.Navigation("LikedPosts");
 
                     b.Navigation("MessagesReceived");
 
@@ -528,12 +698,27 @@ namespace API.Data.Migrations
 
                     b.Navigation("Photos");
 
+                    b.Navigation("PostComments");
+
+                    b.Navigation("PostLikes");
+
+                    b.Navigation("UserPosts");
+
                     b.Navigation("UserRoles");
                 });
 
             modelBuilder.Entity("API.Entities.Group", b =>
                 {
                     b.Navigation("Connections");
+                });
+
+            modelBuilder.Entity("API.Entities.UserPost", b =>
+                {
+                    b.Navigation("CommentLikes");
+
+                    b.Navigation("Comments");
+
+                    b.Navigation("Likes");
                 });
 #pragma warning restore 612, 618
         }

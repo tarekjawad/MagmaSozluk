@@ -8,6 +8,8 @@ namespace API.Abstract
         IMessageRepository MessageRepository { get; }
         IFollowsRepository FollowsRepository { get; }
         IEducationRespository EducationRespository { get; }
+        IPostsRepository PostsRepository { get; }
+
         Task<bool> Complete();
         bool HasChanges();
     }

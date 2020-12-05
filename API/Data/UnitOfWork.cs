@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using API.Abstract;
+using API.Data.Repositories;
 using AutoMapper;
 
 namespace API.Data
@@ -21,6 +22,7 @@ namespace API.Data
         public IFollowsRepository FollowsRepository => new FollowsRepository(_context);
 
         public IEducationRespository EducationRespository => new EducationRespository(_context, _mapper);
+        public IPostsRepository PostsRepository => new PostsRepository(_context, _mapper);
 
         public async Task<bool> Complete()
         {
