@@ -315,6 +315,9 @@ namespace API.Data.Migrations
                     b.Property<int>("CommentedPostId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("SourceUserId", "CommentedPostId");
 
                     b.HasIndex("CommentedPostId");
@@ -393,6 +396,9 @@ namespace API.Data.Migrations
 
                     b.Property<int>("SourceUserId")
                         .HasColumnType("int");
+
+                    b.Property<string>("SourceUsername")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");

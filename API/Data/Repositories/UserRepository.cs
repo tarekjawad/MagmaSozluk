@@ -28,6 +28,19 @@ namespace API.Data
                 .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
                 .SingleOrDefaultAsync();
         }
+        public async Task<string> GetMemberUsernameAsync(int id)
+        {
+             var user= await _context.Users
+                .Where(x => x.Id == id)
+                .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+                .SingleOrDefaultAsync();
+            return user.Username;
+        }
+
+        public async Task<MemberDto> GetMemberByIdAsync(int id)
+        {
+            return await _context.Users.Where(x =>x.Id==id).ProjectTo<MemberDto>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
+        }
 
         public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {

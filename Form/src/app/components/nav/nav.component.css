@@ -1,0 +1,114 @@
+
+.navbar-brand {
+  margin-right: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+.navbar {
+  padding-right: 0rem;
+}
+
+.dropdown-toggle,
+.dropdown-item {
+  cursor: pointer;
+}
+.navbar {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+#shareButton {
+  margin-left: auto;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+#navbarfirst {
+  margin-right: auto;
+}
+#navbarsecond {
+  margin-left: auto;
+}
+#title {
+  font-size: 2.8rem;
+}
+@media screen and (max-width: 992px) {
+  #b1 {
+    display: none;
+  }
+  #b2 {
+    display: none;
+  }
+  #title1 {
+    display: inline;
+    margin-right: 1rem;
+  }
+  #title2 {
+    display: none;
+  }
+  #navbarfirst {
+    margin-left: 0rem;
+  }
+  #navbarsecond {
+    margin-right: 6rem;
+  }
+  .navbar-brand {
+    font-size: 1.5rem;
+    margin-right: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+}
+
+img {
+  border-radius: 50%;
+  margin-right: 1rem;
+  max-height: 50px;
+  border: 2px solid #fff;
+  display: inline;
+}
+#username-text {
+  text-decoration: none;
+}
+
+/** Hover-related CSS **/
+
+.example {
+  margin-bottom:15px;
+}
+.example .hover {
+  font-size: 1.2rem;
+  text-align: center;
+  width: 170px;
+  padding: 0;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+}
+.example .hover:before, .example .hover:after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  width: 0px;
+  height: 5px;
+  margin: 5px 0 0;
+  transition: all 0.2s ease-in-out;
+  transition-duration: 0.2s;
+  opacity: 0;
+  background-color: #fff;
+}
+
+.example .hover.hover-3:before {
+  left: 50%;
+}
+.example .hover.hover-3:after {
+  right: 50%;
+}
+.example:hover {
+  cursor: pointer;
+}
+.example:hover .hover:before, .example:hover .hover:after {
+  width: 100%;
+  opacity: 1;
+}
+.example:hover .hover.hover-3:before, .example:hover .hover.hover-3:after{
+  width: 50%;
+}

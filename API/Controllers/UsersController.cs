@@ -39,7 +39,11 @@ namespace API.Controllers
         {
             return await _unitOfWork.UserRepository.GetMemberAsync(username);
         }
-
+        [HttpGet("id/{id}", Name = "GetUserWithId")]
+        public async Task<ActionResult<MemberDto>> GetUserWithId(int id)
+        {
+            return await _unitOfWork.UserRepository.GetMemberByIdAsync(id);
+        }
         [HttpPut]
         public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
         {

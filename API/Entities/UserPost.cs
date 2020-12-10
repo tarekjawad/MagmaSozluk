@@ -8,6 +8,7 @@ namespace API.Entities
         public int Id { get; set; }
         public AppUser SourceUser { get; set; }
         public int SourceUserId { get; set; }
+        public string SourceUsername { get; set; }
         public int KindId { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }

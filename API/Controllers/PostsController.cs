@@ -43,6 +43,7 @@ namespace API.Controllers
             {
                 SourceUser = user,
                 SourceUserId = sourceUserId,
+                SourceUsername=User.GetUsername(),
                 KindId = postDto.KindId,
                 Title = postDto.Title,
                 Content = postDto.Content

@@ -6,6 +6,7 @@ namespace API.Entities
         public int SourceUserId { get; set; }
         public UserPost CommentedPost { get; set; }
         public int CommentedPostId { get; set; }
+        public string Content { get; set; }
         
     }
 }

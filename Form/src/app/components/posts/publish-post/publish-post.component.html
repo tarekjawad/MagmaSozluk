@@ -1,0 +1,75 @@
+<div class="container">
+    <form class="" [formGroup]="publishPost" (ngSubmit)="publishPost.valid&& post()" autocomplete="off">
+        <h2 class="text-center text-primary">Bir Gönderi Yayınla</h2>
+        <hr />
+      
+        
+        <div class="form-group">
+          <input
+            [class.is-invalid]="
+            publishPost.get('title')?.errors &&
+            publishPost.get('title')?.touched
+            "
+            type="text"
+            class="form-control"
+            formControlName="title"
+            placeholder="Gönderi Başlığı"
+          />
+          <div class="invalid-feedback">Lütfen bir başlık giriniz</div>
+        </div>
+        
+      
+       
+        <div class="form-group">
+          <label class="control-labs" style="margin-right: 10px">Gönderi türü:</label>
+          <select
+            class="form-control"
+            [class.is-invalid]="
+            publishPost.get('kindId')?.errors &&
+            publishPost.get('kindId')?.touched
+            "
+            formControlName="kindId"
+          >
+          <option value="" selected="selected">Tür Seçiniz</option>
+      
+            <ng-container *ngFor="let postKind of this.postKinds">
+              <option value="{{postKind.id}}">
+                {{ postKind.name }}
+              </option>
+            </ng-container>
+          </select>
+          <div class="invalid-feedback">Lütfen bir tür giriniz</div>
+        </div>
+        
+      
+        <div class="form-group">
+            <textarea
+              [class.is-invalid]="
+              publishPost.get('content')?.errors &&
+              publishPost.get('content')?.touched
+              "
+              type="text"
+              class="form-control"
+              formControlName="content"
+              placeholder="Metin"
+              rows="7"
+            ></textarea>
+            <div class="invalid-feedback">Lütfen bir metin giriniz</div>
+          </div>
+        
+        <div class="row" *ngIf="validationErrors.length > 0">
+          <ul class="text-danger">
+            <li *ngFor="let error of validationErrors">
+              {{ error }}
+            </li>
+          </ul>
+        </div>
+        <div class="form-group text-center">
+          <button [disabled]="!publishPost.valid" class="btn btn-success mr-2" type="submit">Gönder</button>
+          <button class="btn btn-warning mr-2" (click)="cancel()" type="button">
+            Cancel
+          </button>
+        </div>
+      </form>
+      
+</div>

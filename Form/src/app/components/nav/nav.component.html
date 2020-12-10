@@ -1,0 +1,124 @@
+<div class="navbar navbar-expand-sm navbar-dark bg-danger">
+  
+  <div id="b1" class="col-md-1"></div>
+
+  <div id="navbarfirst" class="navbar-nav mr-auto"style="width: 30%;">
+   <form style="width: 80%;" class="d-flex">
+    
+   
+      <input type="text" class="form-control" placeholder="Bir gönderi ara..."  >
+      <button class="btn btn-light ml-2 pl-3 pr-3" type="button" id="button-addon2">Ara</button>
+   </form>
+  </div>
+  <ul class="navbar-nav mb-2">
+    <li class="navbar-nav d-flex flex-column align-content-md-center">
+      <a id="title" routerLink="/" class="navbar-brand">Magma Sözlük</a>
+    </li>
+  </ul>
+
+  <div id="navbarsecond"style="width: 30%;">
+    <ul id="navbarsecond2" class="navbar-nav mt-1 mb-1">
+      <button routerLink="/publish-post" id="shareButton" class="btn btn-light">Yazı Paylaş</button>
+      <div
+        id="dropdown"
+        class="dropdown ml-3"
+        *ngIf="accountService.currentUser$ | async as user"
+        dropdown
+      >
+        <img
+          src="{{ user.photoUrl || 'assets/user.png' }}"
+          alt="{{ user.username }}"
+        />
+        <a id="username-text" class="dropdown-toggle text-light" dropdownToggle>
+          {{ user.knownAs || user.username | titlecase }}</a
+        >
+        <div class="dropdown-menu mt-3" *dropdownMenu>
+          <a
+            *appHasRole="['Admin', 'Moderator']"
+            class="dropdown-item"
+            routerLink="/admin"
+            >Yönetme Paneli</a
+          >
+          <a class="dropdown-item">Kendi Yazılarım</a>
+
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" routerLink="/member/edit"
+            >Profilini Düzenle</a
+          >
+          <a href="" class="dropdown-item" (click)="logout()">Çıkış Yap</a>
+        </div>
+      </div>
+    </ul>
+  </div>
+  <div id="b2" class="col-md-1"></div>
+</div>
+<div class="navbar navbar-expand-sm navbar-dark bg-danger">
+  <div id="b1" class="col-md-1"></div>
+
+  <ul id="formNav" class="navbar-nav ml-auto mr-auto">
+    <li class="navbar-nav example">
+      <a class="nav-link hover hover-3" routerLinkActive="active" style="margin-left: 0px;"
+        >Eğitim</a
+      >
+    </li>
+    <li class="navbar-nav example" >
+      <a
+        class="hover hover-3 nav-link"
+        routerLinkActive="active"
+        
+        >Bilim</a
+      >
+    </li>
+    <li class="navbar-nav example">
+      <a
+        class="hover hover-3 nav-link"
+        routerLinkActive="active"
+        >Felsefe</a
+      >
+    </li>
+    <li class="navbar-nav example">
+      <a
+        class="hover hover-3 nav-link"
+        routerLinkActive="active"
+        >Tasarım</a
+      >
+    </li>
+    <li class="navbar-nav example">
+      <a
+        class="hover hover-3 nav-link"
+        routerLinkActive="active"
+        >Yazılım</a
+      >
+    </li>
+    <li class="navbar-nav example">
+      <a
+        class="hover hover-3 nav-link"
+        routerLinkActive="active"
+        >Yazılım</a
+      >
+    </li>
+    <li class="navbar-nav example">
+      <a
+        class="hover hover-3 nav-link"
+        routerLinkActive="active"
+        >Yazılım</a
+      >
+    </li>
+    <li class="navbar-nav example">
+      <a
+        class="hover hover-3 nav-link"
+        routerLinkActive="active"
+        >Yazılım</a
+      >
+    </li>
+    <li class="navbar-nav example">
+      <a
+        class="hover hover-3 nav-link"
+        routerLinkActive="active"
+        >Yazılım</a
+      >
+    </li>
+  </ul>
+
+  <div id="b2" class="col-md-1"></div>
+</div>
