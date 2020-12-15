@@ -1,4 +1,20 @@
-<div *ngIf="member">
+<nav
+  class="navbar navbar-expand-sm navbar-dark bg-danger " 
+>
+
+<ul
+      id="title1"
+      class="navbar-nav"
+      style="margin-left: auto; margin-right: auto;"
+    >
+      <li class="navbar-nav">
+        <a routerLink="/" class="navbar-brand" style="font-size: 2rem;">Magma Eğitim</a>
+      </li>
+    </ul>
+</nav>
+
+
+<div *ngIf="member" class="mt-5">
   <div>
     <div class="alert alert-info" *ngIf="editForm.dirty">
       <strong>Bilgilendirme:</strong> Değişiklikler yaptın. Kaydedilmeyen

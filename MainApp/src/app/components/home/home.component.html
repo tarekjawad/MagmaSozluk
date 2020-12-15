@@ -1,11 +1,19 @@
 <div
   class="d-flex justify-content-around align-items-center"
-  style="margin-top: 100px;"
-  *ngIf="!registerMode"
+  style="margin-top: 100px"
 >
-  <div><img  src="../../assets/arkaplan.png" alt="" /></div>
-  <div class="text-center align-items-center ">
+  <div><img src="../../assets/arkaplan.png" alt="" /></div>
+  
+  <div class="text-center align-items-center">
     <h1 style="font-size: 3.24rem">Magma Eğitim Uygulamasına Hoş Geldiniz</h1>
+
+    <div class="d-flex flex-column justify-content-center  align-items-center" *ngIf="accountService.currentUser$ | async as user">
+     
+      <div class="btn-group mt-4 mb-2" >
+        <button routerLink="/member/edit" class="btn btn-warning">Profili Düzenle</button>
+        <button (click)="logout()" href="" class="btn btn-danger">Çıkış Yap</button>
+      </div>
+    </div>
     <form
       *ngIf="(accountService.currentUser$ | async) === null"
       #loginForm="ngForm"
@@ -31,7 +39,7 @@
         placeholder="Şifre"
         style="font-size: large"
       />
-      <button class="btn btn-primary my-2 pr-5 pl-5 mb-2 mt-3" type="submit">
+      <button class="btn btn-primary my-2 pr-5 pl-5 mb-2 mt-3" type="submit" href="">
         Giriş Yap
       </button>
       <p style="font-size: large">Veya</p>
@@ -45,17 +53,8 @@
     </div>
   </div>
 </div>
-<div *ngIf="registerMode" class="container">
-  <div class="row justify-content-center">
-    <div class="col-4">
-      <app-register
-        (cancelRegister)="cancelRegisterMode($event)"
-      ></app-register>
-    </div>
-  </div>
-</div>
 
-<main role="main"  style="margin-top: 300px;">
+<main role="main" style="margin-top: 300px">
   <div id="laptops" class="mt-4 mb-5 d-flex justify-content-center">
     <img class="laptops" src="../../../assets/laptoplar.jpg" alt="" />
     <div id="contentOfLaptops">
@@ -321,7 +320,8 @@
     <p class="float-right"><a href="#">Yukarı çık</a></p>
     <p>
       &copy; 2020 Magma Eğitim,
-      <a href="https://tarekjawad.com">Tarek Jawad</a> tarefından yapılmıştır. <a href="#"> Gizlilik</a> <a href="#"> Şartlar</a>
+      <a href="https://tarekjawad.com">Tarek Jawad</a> tarefından yapılmıştır.
+      <a href="#"> Gizlilik</a> <a href="#"> Şartlar</a>
     </p>
   </footer>
 </main>

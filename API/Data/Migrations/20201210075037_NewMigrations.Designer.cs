@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace API.Data.Migrations
+namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201206112419_ContentComment")]
-    partial class ContentComment
+    [Migration("20201210075037_NewMigrations")]
+    partial class NewMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -177,9 +177,6 @@ namespace API.Data.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("SchoolId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -398,6 +395,9 @@ namespace API.Data.Migrations
 
                     b.Property<int>("SourceUserId")
                         .HasColumnType("int");
+
+                    b.Property<string>("SourceUsername")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");

@@ -7,9 +7,7 @@ import { Class } from '../_models/class';
 import { Member } from '../_models/member';
 import { School } from '../_models/school';
 import { User } from '../_models/user';
-import { UserParams } from '../_models/userParams';
 import { AccountService } from './account.service';
-import { getPaginatedResult, getPaginitionHeaders } from './paginationHelper';
 @Injectable({
   providedIn: 'root',
 })
@@ -20,7 +18,6 @@ export class MembersService {
   schools: School[] = [];
   memberCache = new Map();
   user!: User;
-  userParams!: UserParams;
 
   constructor(
     private http: HttpClient,
@@ -28,19 +25,7 @@ export class MembersService {
   ) {
     this.accountService.currentUser$.pipe(take(1)).subscribe((user) => {
       this.user = user;
-      this.userParams = new UserParams(0, 0, '');
     });
-  }
-
-  getUserParams() {
-    return this.userParams;
-  }
-  setUserParams(params: UserParams) {
-    this.userParams = params;
-  }
-  resetUserParams() {
-    this.userParams = new UserParams(0, 0, '');
-    return this.userParams;
   }
 
   getMemberSchool(schoolId: number) {
@@ -76,50 +61,6 @@ export class MembersService {
     return this.http.get<Class>(this.baseUrl + 'education/class/' + classId);
   }
 
-  getMembers(userParams: UserParams) {
-    var response = this.memberCache.get(Object.values(userParams).join('-'));
-
-    if (response) {
-      return of(response);
-    }
-
-    let params = getPaginitionHeaders(
-      userParams.pageNumber,
-      userParams.PageSize
-    );
-
-    if (userParams.city != null) {
-      params = params.append('city', userParams.city);
-      if (userParams.schoolId !== 0 && userParams.classId === 0) {
-        params = params.append('schoolId', userParams.schoolId!.toString());
-      }
-      if (userParams.schoolId !== 0 && userParams.classId !== 0) {
-        params = params.append('schoolId', userParams.schoolId!.toString());
-        params = params.append('classId', userParams.classId!.toString());
-      }
-    } else {
-      if (userParams.schoolId !== 0 && userParams.classId === 0) {
-        params = params.append('schoolId', userParams.schoolId!.toString());
-      }
-      if (userParams.schoolId !== 0 && userParams.classId !== 0) {
-        params = params.append('schoolId', userParams.schoolId!.toString());
-        params = params.append('classId', userParams.classId!.toString());
-      }
-    }
-    params = params.append('orderBy', userParams.orderBy);
-
-    return getPaginatedResult<Member[]>(
-      this.baseUrl + 'users',
-      params,
-      this.http
-    ).pipe(
-      map((response) => {
-        this.memberCache.set(Object.values(userParams).join('-'), response);
-        return response;
-      })
-    );
-  }
-
   getMember(username: string) {
     const member = [...this.memberCache.values()]
       .reduce((arr, elem) => arr.concat(elem.result), [])
@@ -129,16 +70,6 @@ export class MembersService {
       return of(member);
     }
     return this.http.get<Member>(this.baseUrl + 'users/' + username);
-  }
-  getMemberWithId(id: number) {
-    const member = [...this.memberCache.values()]
-      .reduce((arr, elem) => arr.concat(elem.result), [])
-      .find((member: Member) => member.id === id);
-
-    if (member) {
-      return of(member);
-    }
-    return this.http.get<Member>(this.baseUrl + 'users/id/' + id);
   }
 
   updateMember(member: Member) {
@@ -154,17 +85,5 @@ export class MembersService {
   }
   deletePhoto(photoId: number) {
     return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
-  }
-  addFollow(username: string) {
-    return this.http.post(this.baseUrl + 'follows/' + username, {});
-  }
-  getFollows(predicate: string, pageNumber: number, pageSize: number) {
-    let params = getPaginitionHeaders(pageNumber, pageSize);
-    params = params.append('predicate', predicate);
-    return getPaginatedResult<Partial<Member[]>>(
-      this.baseUrl + 'follows',
-      params,
-      this.http
-    );
   }
 }

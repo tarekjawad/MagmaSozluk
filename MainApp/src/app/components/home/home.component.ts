@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  registerMode = false;
   model: any = {};
 
   logined = false;
@@ -20,15 +19,15 @@ export class HomeComponent implements OnInit {
     this.logined = this.accountService.logined;
   }
 
-  registerToggle() {
-    this.registerMode = !this.registerMode;
-  }
-  cancelRegisterMode(event: boolean) {
-    this.registerMode = event;
-  }
+  
   login() {
     this.accountService.login(this.model).subscribe((response) => {
-      this.router.navigateByUrl('/members');
+      this.ngOnInit();
+
     });
+  }
+  logout() {
+    this.accountService.logut();
+    this.ngOnInit();
   }
 }

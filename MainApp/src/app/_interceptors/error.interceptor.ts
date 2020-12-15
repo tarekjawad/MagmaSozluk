@@ -19,7 +19,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
-      catchError(error => {
+      catchError((error) => {
         if (error) {
           switch (error.status) {
             case 400:
@@ -31,32 +31,41 @@ export class ErrorInterceptor implements HttpInterceptor {
                   }
                 }
                 throw modalStateErrors.flat();
-              } else if (typeof (error.error)==="object") {
-                this.toastr.error(error.statusText === "OK" ? "Kötü istek" : error.statusText, error.status);
-              }else{
-                this.toastr.error(error.error)
+              } else if (typeof error.error === 'object') {
+                this.toastr.error(
+                  error.statusText === 'OK' ? 'Kötü istek' : error.statusText,
+                  error.status
+                );
+              } else {
+                this.toastr.error(error.error);
               }
               break;
             case 401:
-              this.toastr.error(error.statusText === "OK" ? "Yetersiz yetki" : error.statusText, error.status);
+              this.toastr.error(
+                error.statusText === 'OK' ? 'Yetersiz yetki' : error.statusText,
+                error.status
+              );
 
               break;
             case 404:
-              this.router.navigateByUrl("/not-found");
+              this.toastr.error("Bulunamadı");
               break;
             case 500:
-              const navigationExtras:NavigationExtras={state:{error:error.error}}
-              this.router.navigateByUrl("/server-error",navigationExtras);
+              const navigationExtras: NavigationExtras = {
+                state: { error: error.error },
+              };
+              this.router.navigateByUrl('/', navigationExtras);
+              this.toastr.error("Bir hata oluştu");
+
               break;
             default:
-              this.toastr.error("Bazı şeyler ters gitti");
+              this.toastr.error('Bazı şeyler ters gitti');
               console.log(error);
-              
+
               break;
           }
         }
         return throwError(error);
-
       })
     );
   }

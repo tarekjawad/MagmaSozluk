@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
   ValidatorFn,
   Validators,
@@ -10,7 +9,6 @@ import {
 import { Router } from '@angular/router';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { ToastrService } from 'ngx-toastr';
-import { error } from 'protractor';
 import { Class } from '../../_models/class';
 import { School } from '../../_models/school';
 import { AccountService } from '../../_services/account.service';
@@ -27,11 +25,104 @@ export class RegisterComponent implements OnInit {
   bsConfig!: Partial<BsDatepickerConfig>;
   maxDate: Date = new Date();
   schools$!: School[];
-  schools2$!: School[];
+  schools!: School[];
   classes$!: Class[];
-  classes2$!: Class[];
-  countries$: string[] = ['Türkiye'];
-  cities$: string[] = [];
+  countries$: any[] = [
+    {
+      id: 1,
+      name: 'Türkiye',
+      cities: [
+        'Adana',
+        'Adıyaman',
+        'Afyon',
+        'Ağrı',
+        'Amasya',
+        'Ankara',
+        'Antalya',
+        'Artvin',
+        'Aydın',
+        'Balıkesir',
+        'Bilecik',
+        'Bingöl',
+        'Bitlis',
+        'Bolu',
+        'Burdur',
+        'Bursa',
+        'Çanakkale',
+        'Çankırı',
+        'Çorum',
+        'Denizli',
+        'Diyarbakır',
+        'Edirne',
+        'Elazığ',
+        'Erzincan',
+        'Erzurum',
+        'Eskişehir',
+        'Gaziantep',
+        'Giresun',
+        'Gümüşhane',
+        'Hakkari',
+        'Hatay',
+        'Isparta',
+        'Mersin',
+        'İstanbul',
+        'İzmir',
+        'Kars',
+        'Kastamonu',
+        'Kayseri',
+        'Kırklareli',
+        'Kırşehir',
+        'Kocaeli',
+        'Konya',
+        'Kütahya',
+        'Malatya',
+        'Manisa',
+        'Kahramanmaraş',
+        'Mardin',
+        'Muğla',
+        'Muş',
+        'Nevşehir',
+        'Niğde',
+        'Ordu',
+        'Rize',
+        'Sakarya',
+        'Samsun',
+        'Siirt',
+        'Sinop',
+        'Sivas',
+        'Tekirdağ',
+        'Tokat',
+        'Trabzon',
+        'Tunceli',
+        'Şanlıurfa',
+        'Uşak',
+        'Van',
+        'Yozgat',
+        'Zonguldak',
+        'Aksaray',
+        'Bayburt',
+        'Karaman',
+        'Kırıkkale',
+        'Batman',
+        'Şırnak',
+        'Bartın',
+        'Ardahan',
+        'Iğdır',
+        'Yalova',
+        'Karabük',
+        'Kilis',
+        'Osmaniye',
+        'Düzce',
+      ],
+    },
+    {
+      id: 2,
+      name: 'USA',
+      cities: ['Washington', 'New York'],
+    },
+  ];
+  cities: any[]=[];
+
   validationErrors: string[] = [];
 
   constructor(
@@ -50,30 +141,26 @@ export class RegisterComponent implements OnInit {
     };
 
     this.maxDate.setFullYear(this.maxDate.getFullYear() - 10);
+
     this.memberService.getSchools().subscribe((schools) => {
-      this.memberService.schools = schools;
       this.schools$ = schools;
-      this.schools$.forEach((school) => {
-        if (!this.cities$.includes(school.city)) {
-          this.cities$.push(school.city);
-        }
-      });
     });
 
-    this.registerForm!.get('country')?.valueChanges.subscribe((x) => {});
+    this.registerForm!.get('country')?.valueChanges.subscribe((x) => {
+      let country = this.countries$.find(
+        (y) => y.id == x
+      );
+      this.cities=country!.cities;
+
+    });
 
     this.registerForm!.get('city')?.valueChanges.subscribe((x) => {
-      this.schools2$ = this.schools$.filter(
+      this.schools = this.schools$.filter(
         (x) => x.city == this.registerForm!.get('city')?.value
       );
       this.registerForm.controls['schoolId']?.reset();
-      this.registerForm.controls['classId']?.reset();
     });
-    this.registerForm!.get('schoolId')?.valueChanges.subscribe((x) => {
-      this.classes2$ = this.classes$.filter(
-        (x) => x.schoolId == this.registerForm!.get('schoolId')?.value
-      );
-    });
+
     this.memberService.getClasses().subscribe((classes) => {
       this.memberService.classes = classes;
       this.classes$ = classes;
@@ -116,7 +203,8 @@ export class RegisterComponent implements OnInit {
   register() {
     this.accountService.register(this.registerForm.value).subscribe(
       (response) => {
-        this.router.navigateByUrl('/members');
+        this.router.navigateByUrl('/');
+
       },
       (error) => {
         this.validationErrors = error;
