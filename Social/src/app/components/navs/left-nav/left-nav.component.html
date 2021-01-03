@@ -1,0 +1,80 @@
+<div
+  class="d-flex align-items-center flex-column"
+  *ngIf="accountService.currentUser$ | async as user"
+>
+  <h2>
+    <span class="badge bg-primary" style="color: aliceblue"> Ana Menü</span>
+  </h2>
+</div>
+<nav
+  class="nav flex-column mt-3"
+  *ngIf="accountService.currentUser$ | async as user"
+>
+  <ul class="navbar-nav ml-4">
+    <li class="example">
+      <a
+        class="nav-link hover hover-3 d-flex align-items-center"
+        routerLinkActive="active"
+        ><span><i class="fa fa-home"></i></span> Ana Sayfa
+      </a>
+    </li>
+    <li class="example">
+      <a
+        class="hover hover-3 nav-link d-flex align-items-center"
+        routerLinkActive="active"
+        ><span
+          ><i class="fa fa-user-circle" style="display: inline-block"></i></span
+        >Profilim</a
+      >
+    </li>
+    <li class="example">
+      <a
+        class="hover hover-3 nav-link d-flex align-items-center"
+        routerLinkActive="active"
+        ><span><i class="fa fa-bell-o"></i> </span>Bildirimler</a
+      >
+    </li>
+    <li class="example">
+      <a
+        class="hover hover-3 nav-link d-flex align-items-center"
+        routerLinkActive="active"
+        ><span><i class="fa fa-users"></i> </span>Arkadaşlarım</a
+      >
+    </li>
+    <li class="example">
+      <a
+        class="hover hover-3 nav-link d-flex align-items-center"
+        routerLinkActive="active"
+        ><span><i class="fa fa-users"></i> </span>Takipçilerim</a
+      >
+    </li>
+    <li class="example">
+      <a
+        class="hover hover-3 nav-link d-flex align-items-center"
+        routerLinkActive="active"
+        ><span><i class="fa fa-users"></i> </span>Takip Edilenler</a
+      >
+    </li>
+    <li class="example">
+      <a
+        class="hover hover-3 nav-link d-flex align-items-center"
+        routerLinkActive="active"
+        ><span><i class="fa fa-comments-o"></i> </span>Mesajlar</a
+      >
+    </li>
+    <li class="example">
+      <a
+        class="hover hover-3 nav-link d-flex align-items-center"
+        routerLinkActive="active"
+        ><span><i class="fa fa-user-o"></i></span>Profilini Düzenle</a
+      >
+    </li>
+    <li class="example">
+      <a
+        class="hover hover-3 nav-link d-flex align-items-center"
+        routerLinkActive="active"
+        ><span><i class="fa fa-sign-out"></i> </span>Çıkış Yap</a
+      >
+    </li>
+  </ul>
+</nav>

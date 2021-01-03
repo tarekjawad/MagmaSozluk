@@ -1,7 +1,7 @@
 <div
   class="d-flex justify-content-around align-items-center"
   style="margin-top: 100px;"
-  *ngIf="!registerMode &&(accountService.currentUser$ | async) === null"
+  *ngIf="(accountService.currentUser$ | async) === null"
 
 >
   <div class="text-center align-items-center ">

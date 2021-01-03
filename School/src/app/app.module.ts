@@ -7,10 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavComponent } from './components/nav/nav.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './components/home/home.component';
-import { RegisterComponent } from './components/register/register.component';
-import { MemberListComponent } from './components/members/member-list/member-list.component';
 import { MemberDetailComponent } from './components/members/member-detail/member-detail.component';
-import { MessagesComponent } from './components/messages/messages.component';
 import { SharedModule } from './_modules/shared.module';
 import { TestErrorsComponent } from './components/errors/test-errors/test-errors.component';
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
@@ -24,46 +21,33 @@ import { PhotoEditorComponent } from './components/members/photo-editor/photo-ed
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ListFollowersComponent } from './components/lists/list-followers/list-followers.component';
-import { ListFollowingsComponent } from './components/lists/list-followings/list-followings.component';
-import { MemberMessagesComponent } from './components/members/member-messages/member-messages.component';
 import { AdminPanelComponent } from './components/admin/admin-panel/admin-panel.component';
 import { HasRoleDirective } from './_directives/has-role.directive';
 import { UserManagementComponent } from './components/admin/user-management/user-management.component';
 import { PhotoManagementComponent } from './components/admin/photo-management/photo-management.component';
 import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
 import { ConfirmDialogComponent } from './modals/confirm-dialog/confirm-dialog.component';
-import { ChoosingPlatformComponent } from './components/choosing-platform/choosing-platform.component';
-import { PostComponent } from './components/posts/post/post.component';
-import { PostsListComponent } from './components/posts/posts-list/posts-list.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     HomeComponent,
-    RegisterComponent,
-    MemberListComponent,
     MemberDetailComponent,
-    MessagesComponent,
     TestErrorsComponent,
     NotFoundComponent,
     ServerErrorComponent,
     MemberCardComponent,
     MemberEditComponent,
     PhotoEditorComponent,
-    ListFollowersComponent,
-    ListFollowingsComponent,
-    MemberMessagesComponent,
+
     AdminPanelComponent,
     HasRoleDirective,
     UserManagementComponent,
     PhotoManagementComponent,
     RolesModalComponent,
     ConfirmDialogComponent,
-    ChoosingPlatformComponent,
-    PostComponent,
-    PostsListComponent,
   ],
   imports: [
     BrowserModule,

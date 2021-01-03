@@ -4,10 +4,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NavComponent } from './components/nav/nav.component';
+import { NavComponent } from './components/navs/nav/nav.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './components/home/home.component';
-import { RegisterComponent } from './components/register/register.component';
 import { MemberListComponent } from './components/members/member-list/member-list.component';
 import { MemberDetailComponent } from './components/members/member-detail/member-detail.component';
 import { MessagesComponent } from './components/messages/messages.component';
@@ -34,15 +33,14 @@ import { PhotoManagementComponent } from './components/admin/photo-management/ph
 import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
 import { ConfirmDialogComponent } from './modals/confirm-dialog/confirm-dialog.component';
 import { ChoosingPlatformComponent } from './components/choosing-platform/choosing-platform.component';
-import { PostComponent } from './components/posts/post/post.component';
-import { PostsListComponent } from './components/posts/posts-list/posts-list.component';
+import { LeftNavComponent } from './components/navs/left-nav/left-nav.component';
+import { SignInComponent } from './components/sign-in/sign-in.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     HomeComponent,
-    RegisterComponent,
     MemberListComponent,
     MemberDetailComponent,
     MessagesComponent,
@@ -62,8 +60,8 @@ import { PostsListComponent } from './components/posts/posts-list/posts-list.com
     RolesModalComponent,
     ConfirmDialogComponent,
     ChoosingPlatformComponent,
-    PostComponent,
-    PostsListComponent,
+    LeftNavComponent,
+    SignInComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,7 +73,7 @@ import { PostsListComponent } from './components/posts/posts-list/posts-list.com
     SharedModule,
     BsDatepickerModule.forRoot(),
     PaginationModule.forRoot(),
-    FontAwesomeModule
+    FontAwesomeModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

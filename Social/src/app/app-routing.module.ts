@@ -12,8 +12,6 @@ import { MemberDetailComponent } from './components/members/member-detail/member
 import { MemberEditComponent } from './components/members/member-edit/member-edit.component';
 import { MemberListComponent } from './components/members/member-list/member-list.component';
 import { MessagesComponent } from './components/messages/messages.component';
-import { PostsListComponent } from './components/posts/posts-list/posts-list.component';
-import { RegisterComponent } from './components/register/register.component';
 import { AdminGuard } from './_guards/admin.guard';
 import { AuthGuard } from './_guards/auth.guard';
 import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
@@ -43,7 +41,6 @@ const routes: Routes = [
       { path: 'followers-list', component: ListFollowersComponent },
       { path: 'followings-list', component: ListFollowingsComponent },
       { path: 'choosing-platform', component: ChoosingPlatformComponent },
-      { path: 'posts', component: PostsListComponent },
 
       {
         path: 'admin',
@@ -52,7 +49,6 @@ const routes: Routes = [
       },
     ],
   },
-  { path: 'register', component: RegisterComponent },
   { path: 'errors', component: TestErrorsComponent },
   { path: 'not-found', component: NotFoundComponent },
   { path: 'server-error', component: ServerErrorComponent },

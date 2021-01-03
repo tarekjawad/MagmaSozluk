@@ -28,7 +28,6 @@ export class HomeComponent implements OnInit {
   }
   login() {
     this.accountService.login(this.model).subscribe((response) => {
-      this.router.navigateByUrl('/members');
     });
   }
 }

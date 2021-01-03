@@ -1,0 +1,56 @@
+<div
+  class="navbar navbar-expand-sm bg-primary" *ngIf="accountService.currentUser$ | async as user"
+>
+  
+  <a class="navbar-brand text-light" routerLink="/" > Magma Social </a>
+
+  <div class="input-group" style="width: 30%" >
+    <input type="text" class="form-control" placeholder="Paylaşım ara" />
+    <div class="input-group-append">
+      <button class="btn btn-success" type="submit">Ara</button>
+    </div>
+  </div>
+  <div class="dropdown" dropdown   
+  >
+    <div style="margin-left: auto">
+      <img
+        src="{{ user.photoUrl || 'assets/user.png' }}"
+        alt="{{ user.username }}"
+      />
+      <a id="username-text" class="dropdown-toggle text-light" dropdownToggle>
+        {{ user.knownAs || user.username | titlecase }}</a
+      >
+      <div class="dropdown-menu mt-3" *dropdownMenu>
+        <a
+          *appHasRole="['Admin', 'Moderator']"
+          class="dropdown-item"
+          routerLink="/admin"
+          >Yönetme Paneli</a
+        >
+
+        <a class="dropdown-item" routerLink="/members"
+          ><i class="fa fa-users" aria-hidden="true"></i> Kullanıcılar</a
+        >
+        <a class="dropdown-item" routerLink="/members"
+          ><i class="fa fa-bell-o" aria-hidden="true"></i>
+          Bildirimler
+        </a>
+
+        <a class="dropdown-item" routerLink="/followers-list">Takipçiler</a>
+        <a class="dropdown-item" routerLink="/followings-list"
+          >Takip edilenler</a
+        >
+        <a class="dropdown-item" routerLink="/messages"
+          ><i class="fa fa-comments-o" aria-hidden="true"></i> Mesajlar</a
+        >
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" routerLink="/member/edit"
+          ><i class="fa fa-user-o" aria-hidden="true"></i> Profilini Düzenle</a
+        >
+        <a href="" class="dropdown-item" (click)="logout()"
+          ><i class="fa fa-sign-out" aria-hidden="true"></i> Çıkış Yap</a
+        >
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,8 +1,8 @@
 <ngx-spinner>
-    <h3>Loading...</h3>
+  <h3>Yükleniyor...</h3>
 </ngx-spinner>
 
-<app-nav></app-nav>
-<div class=" mt-10 border-right" style="margin-top: 60px;">
-    <router-outlet></router-outlet>
+<div class="d-flex">
+  <div style="padding-bottom: 10%;padding-right: 0%;" class="col-2 bg-danger"><app-nav></app-nav></div>
+  <div class="col-10 mt-5"><router-outlet></router-outlet></div>
 </div>

@@ -12,7 +12,7 @@ import { PresenceService } from './_services/presence.service';
 export class AppComponent implements OnInit {
   title = 'Magma Sözlük';
   users: any;
-  constructor(private accountService: AccountService, private presence:PresenceService) {}
+  constructor(public accountService: AccountService, private presence:PresenceService) {}
   ngOnInit(): void {
     this.setCurrentUser();
   }
